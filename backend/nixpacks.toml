@@ -1,17 +1,16 @@
 [phases.setup]
-nixPkgs = ["python311", "python311Packages.pip"]
+nixPkgs = ["python311"]
 
 [phases.install]
 cmds = [
-  "python -m pip install --upgrade pip",
-  "python -m pip install -r requirements.txt"
+  "pip install --upgrade pip",
+  "pip install -r requirements.txt"
 ]
 
 [phases.build]
 cmds = [
-  "python manage.py collectstatic --noinput",
-  "python manage.py migrate --noinput"
+  "python manage.py collectstatic --noinput"
 ]
 
 [start]
-cmd = "gunicorn reddit_clone.wsgi:application --bind 0.0.0.0:$PORT --log-file - --access-logfile - --error-logfile -"
+cmd = "gunicorn reddit_clone.wsgi:application --bind 0.0.0.0:$PORT --log-file -"

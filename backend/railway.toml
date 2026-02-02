@@ -3,7 +3,6 @@ builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "gunicorn reddit_clone.wsgi:application --bind 0.0.0.0:$PORT --log-file -"
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
 

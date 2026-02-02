@@ -31,4 +31,4 @@ RUN python manage.py collectstatic --noinput
 EXPOSE $PORT
 
 # Run gunicorn
-CMD gunicorn reddit_clone.wsgi:application --bind 0.0.0.0:$PORT --log-file -
+CMD sh -c "gunicorn reddit_clone.wsgi:application --bind 0.0.0.0:${PORT:-8000} --log-file -"

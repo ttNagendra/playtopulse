@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { postsAPI } from '../api';
+import { useAuth } from '../context/AuthContext';
 import Post from './Post';
 
 const Feed = () => {
+    const { isAuthenticated } = useAuth();
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showCreateForm, setShowCreateForm] = useState(false);
@@ -34,6 +36,7 @@ const Feed = () => {
             fetchPosts(); // Refresh posts
         } catch (error) {
             console.error('Error creating post:', error);
+            alert('Failed to create post. Please make sure you are logged in.');
         }
     };
 
@@ -43,12 +46,14 @@ const Feed = () => {
             <div className="glassmorphism p-6">
                 <div className="flex items-center justify-between mb-4">
                     <h1 className="text-4xl font-bold text-gradient">Feed</h1>
-                    <button
-                        onClick={() => setShowCreateForm(!showCreateForm)}
-                        className="btn-primary"
-                    >
-                        {showCreateForm ? 'Cancel' : '+ New Post'}
-                    </button>
+                    {isAuthenticated && (
+                        <button
+                            onClick={() => setShowCreateForm(!showCreateForm)}
+                            className="btn-primary"
+                        >
+                            {showCreateForm ? 'Cancel' : '+ New Post'}
+                        </button>
+                    )}
                 </div>
 
                 {showCreateForm && (

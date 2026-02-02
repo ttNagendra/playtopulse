@@ -16,8 +16,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import JsonResponse
+
+def api_home(request):
+    """Simple homepage showing API is running"""
+    return JsonResponse({
+        'message': 'PlaytoPulse API is running! ✅',
+        'endpoints': {
+            'posts': '/api/posts/',
+            'comments': '/api/comments/',
+            'likes': '/api/likes/',
+            'leaderboard': '/api/leaderboard/',
+            'admin': '/admin/',
+        },
+        'frontend': 'http://localhost:5173/'
+    })
 
 urlpatterns = [
+    path('', api_home, name='home'),
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
 ]

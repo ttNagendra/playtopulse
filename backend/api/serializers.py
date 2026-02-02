@@ -82,7 +82,54 @@ class LikeSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
 
+
+
 class LeaderboardSerializer(serializers.Serializer):
     """Serializer for leaderboard entries."""
     username = serializers.CharField()
     karma = serializers.IntegerField()
+
+
+# Authentication Serializers
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    """Serializer for user registration."""
+    password = serializers.CharField(write_only=True, min_length=8, style={'input_type': 'password'})
+    password2 = serializers.CharField(write_only=True, min_length=8, style={'input_type': 'password'}, label='Confirm Password')
+    
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'password', 'password2']
+        extra_kwargs = {
+            'email': {'required': True}
+        }
+    
+    def validate(self, attrs):
+        """Validate that passwords match."""
+        if attrs['password'] != attrs['password2']:
+            raise serializers.ValidationError({"password": "Password fields didn't match."})
+        return attrs
+    
+    def create(self, validated_data):
+        """Create a new user with encrypted password."""
+        validated_data.pop('password2')
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
+        )
+        return user
+
+
+class UserLoginSerializer(serializers.Serializer):
+    """Serializer for user login."""
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True, style={'input_type': 'password'})
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    """Serializer for user details."""
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name']
+        read_only_fields = ['id']
+

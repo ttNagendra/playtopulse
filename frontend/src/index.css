@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white min-h-screen;
+    @apply bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white min-h-screen;
     font-family: 'Inter', sans-serif;
   }
 }

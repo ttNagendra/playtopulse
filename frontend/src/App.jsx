@@ -104,6 +104,16 @@ function AppContent() {
             <Leaderboard />
           </div>
         </div>
+
+        {/* Footer */}
+        <footer className="mt-12 pb-8 text-center">
+          <div className="glassmorphism inline-block px-8 py-4">
+            <p className="text-white/60 text-sm">
+              Made with ❤️ by{' '}
+              <span className="text-gradient font-semibold text-lg">Nagendra</span>
+            </p>
+          </div>
+        </footer>
       </div>
     </div>
   );

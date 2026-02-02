@@ -1,16 +1,15 @@
 [phases.setup]
-nixPkgs = ["python311"]
+nixPkgs = ["python311", "python311Packages.pip", "python311Packages.virtualenv"]
 
 [phases.install]
 cmds = [
-  "pip install --upgrade pip",
-  "pip install -r requirements.txt"
+  "python3.11 -m venv /opt/venv",
+  ". /opt/venv/bin/activate && pip install --upgrade pip",
+  ". /opt/venv/bin/activate && pip install -r requirements.txt"
 ]
 
 [phases.build]
-cmds = [
-  "python manage.py collectstatic --noinput"
-]
+cmds = [". /opt/venv/bin/activate && python manage.py collectstatic --noinput"]
 
 [start]
-cmd = "gunicorn reddit_clone.wsgi:application --bind 0.0.0.0:$PORT --log-file -"
+cmd = "/opt/venv/bin/gunicorn reddit_clone.wsgi:application --bind 0.0.0.0:$PORT --log-file -"
